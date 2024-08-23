@@ -26,15 +26,9 @@ parse_arguments() {
             print_help
             exit 1
             ;;
-        --no-cuda)
-            option_no_cuda=true
-            ;;
         --platform)
             option_platform="$2"
             shift
-            ;;
-        --devel-only)
-            option_devel_only=true
             ;;
         *)
             echo "Unknown option: $1"
@@ -44,16 +38,6 @@ parse_arguments() {
         esac
         shift
     done
-}
-
-# Set CUDA options
-set_cuda_options() {
-    if [ "$option_no_cuda" = "true" ]; then
-        setup_args="--no-nvidia"
-        image_name_suffix=""
-    else
-        image_name_suffix="-cuda"
-    fi
 }
 
 # Set build options
@@ -97,19 +81,6 @@ load_env() {
     fi
 }
 
-# Clone repositories
-clone_repositories() {
-    cd "$WORKSPACE_ROOT"
-    if [ ! -d "src" ]; then
-        mkdir -p src
-        vcs import src <autoware.repos
-    else
-        echo "Source directory already exists. Updating repositories..."
-        vcs import src <autoware.repos
-        vcs pull src
-    fi
-}
-
 # Build images
 build_images() {
     # https://github.com/docker/buildx/issues/484
@@ -124,18 +95,18 @@ build_images() {
     echo "Targets: ${targets[*]}"
 
     set -x
+    # Build runtime images
     docker buildx bake --load --progress=plain -f "$SCRIPT_DIR/docker-bake.hcl" \
         --set "*.context=$WORKSPACE_ROOT" \
         --set "*.ssh=default" \
         --set "*.platform=$platform" \
+        --set "*.args.PLATFORM=$platform" \
         --set "*.args.ROS_DISTRO=$rosdistro" \
         --set "*.args.BASE_IMAGE=$base_image" \
-        --set "*.args.SETUP_ARGS=$setup_args" \
-        --set "*.args.LIB_DIR=$lib_dir" \
-        --set "base.tags=ghcr.io/autowarefoundation/autoware:latest-base" \
-        --set "devel.tags=ghcr.io/autowarefoundation/autoware:latest-devel$image_name_suffix" \
-        --set "runtime.tags=ghcr.io/autowarefoundation/autoware:latest-runtime$image_name_suffix" \
-        "${targets[@]}"
+        --set "planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-planning-before-$lib_dir" \
+        --set "simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-simulator-$lib_dir" \
+        --set "visualizer.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-visualizer-$lib_dir" \
+        planning-control simulator visualizer
     set +x
 }
 
@@ -146,11 +117,9 @@ remove_dangling_images() {
 
 # Main script execution
 parse_arguments "$@"
-set_cuda_options
 set_build_options
 set_platform
 set_arch_lib_dir
 load_env
-clone_repositories
 build_images
 remove_dangling_images

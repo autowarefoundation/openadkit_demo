@@ -1,40 +1,26 @@
 group "default" {
-  targets = ["base", "autoware-core", "autoware-universe", "devel", "runtime"]
+  targets = ["planning-control", "simulator", "visualizer"]
 }
 
 // For docker/metadata-action
-target "docker-metadata-action-base" {}
-target "docker-metadata-action-autoware-core" {}
-target "docker-metadata-action-autoware-universe" {}
-target "docker-metadata-action-devel" {}
-target "docker-metadata-action-runtime" {}
+target "docker-metadata-action-planning-control" {}
+target "docker-metadata-action-simulator" {}
+target "docker-metadata-action-visualizer" {}
 
-target "base" {
-  inherits = ["docker-metadata-action-base"]
-  dockerfile = "docker/Dockerfile"
-  target = "base"
+target "planning-control" {
+  inherits = ["docker-metadata-action-planning-control"]
+  dockerfile = "docker/modules/planning-control/Dockerfile"
+  target = "planning-control"
 }
 
-target "autoware-core" {
-  inherits = ["docker-metadata-action-autoware-core"]
-  dockerfile = "docker/Dockerfile"
-  target = "autoware-core"
+target "simulator" {
+  inherits = ["docker-metadata-action-simulator"]
+  dockerfile = "docker/modules/simulator/Dockerfile"
+  target = "simulator"
 }
 
-target "autoware-universe" {
-  inherits = ["docker-metadata-action-autoware-universe"]
-  dockerfile = "docker/Dockerfile"
-  target = "autoware-universe"
-}
-
-target "devel" {
-  inherits = ["docker-metadata-action-devel"]
-  dockerfile = "docker/Dockerfile"
-  target = "devel"
-}
-
-target "runtime" {
-  inherits = ["docker-metadata-action-runtime"]
-  dockerfile = "docker/Dockerfile"
-  target = "runtime"
+target "visualizer" {
+  inherits = ["docker-metadata-action-visualizer"]
+  dockerfile = "docker/modules/visualizer/Dockerfile"
+  target = "visualizer"
 }
