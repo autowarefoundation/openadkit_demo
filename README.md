@@ -23,7 +23,7 @@ Open AD Kit is also capable of getting OTA updates by using [eSync Alliance's](h
 To run the containers on the target machine in this case AADP platform or an EC2-Graviton instance
 
 ```bash
-docker/run-containers.sh
+docker/run.sh
 ```
 
 To visualize the simulation on a remote platform which is on the same network with the target machine Run:
@@ -34,16 +34,10 @@ docker/run-visualizer.sh
 
 ### Building the containers from scratch
 
-To build the target container images from scratch Run:
+To build the container images from scratch Run:
 
 ```bash
-docker/build-containers.sh
-```
-
-To build the visualizer container image from scratch Run:
-
-```bash
-docker/build-visualizer.sh
+docker/build.sh
 ```
 
 ## Further Documentation
