@@ -10,7 +10,8 @@ COPY simulator.repos /autoware/
 
 # Set up runtime environment
 RUN --mount=type=ssh \
-  vcs import src < simulator.repos \
+  mkdir src \
+  && vcs import src < simulator.repos \
   && apt-get update \
   && rosdep update \
   && DEBIAN_FRONTEND=noninteractive rosdep install -y --rosdistro "$ROS_DISTRO" --ignore-src --from-paths src 
