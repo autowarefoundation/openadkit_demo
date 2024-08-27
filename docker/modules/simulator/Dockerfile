@@ -12,6 +12,7 @@ COPY simulator.repos /autoware/
 # Set up runtime environment
 RUN --mount=type=ssh \
   mkdir src \
+  && vcs import src < autoware.repos \
   && vcs import src < simulator.repos \
   && apt-get update \
   && rosdep update \
