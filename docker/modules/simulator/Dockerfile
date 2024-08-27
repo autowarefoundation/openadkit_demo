@@ -6,6 +6,7 @@ ARG PLATFORM
 ARG ROS_DISTRO
 WORKDIR /autoware
 
+COPY autoware.repos /autoware/
 COPY simulator.repos /autoware/
 
 # Set up runtime environment
