@@ -4,6 +4,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG PLATFORM
 ARG ROS_DISTRO
+WORKDIR /autoware
 
 COPY simulator.repos /autoware/
 
