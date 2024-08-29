@@ -103,10 +103,11 @@ build_images() {
         --set "*.args.PLATFORM=$platform" \
         --set "*.args.ROS_DISTRO=$rosdistro" \
         --set "*.args.BASE_IMAGE=$base_image" \
+        --set "*.args.LIB_DIR=$lib_dir" \
         --set "planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-planning-before-$lib_dir" \
         --set "simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-simulator-$lib_dir" \
         --set "visualizer.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-visualizer-$lib_dir" \
-        planning-control simulator visualizer
+        simulator visualizer planning-control
     set +x
 }
 
