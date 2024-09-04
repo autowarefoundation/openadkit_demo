@@ -1,4 +1,5 @@
-FROM ghcr.io/autowarefoundation/autoware:20240823-runtime AS planning-control
+ARG ARCH
+FROM ghcr.io/autowarefoundation/autoware:20240904-runtime-${ARCH} AS planning-control
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy simulation files
