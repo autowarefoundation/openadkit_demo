@@ -106,8 +106,7 @@ build_images() {
         --set "*.args.LIB_DIR=$lib_dir" \
         --set "planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-planning-before-$lib_dir" \
         --set "simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-simulator-$lib_dir" \
-        --set "visualizer.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:ces-visualizer-$lib_dir" \
-        simulator visualizer planning-control
+        simulator planning-control
     set +x
 }
 

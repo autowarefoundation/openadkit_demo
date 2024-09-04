@@ -15,12 +15,12 @@ RUN cd /home/ubuntu/Desktop/scenario_simulator_ws && rosdep install -y -r -i --f
     && find / -name "*.hpp" -type f -delete 
 
 # Copy simulation files
-RUN mkdir -p /autoware/scenario-sim
 COPY docker/etc/simulation/ /autoware/scenario-sim/
+RUN chmod +x /autoware/scenario-sim/rviz/launch_rviz.sh
 
 # Create entrypoint
 COPY docker/etc/ros_entrypoint_sim.sh /ros_entrypoint.sh
 RUN chmod +x /ros_entrypoint.sh
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD ["ros2 launch scenario_test_runner scenario_test_runner.launch.py architecture_type:=awf/universe record:=false scenario:=/autoware/scenario-sim/yield_maneuver_demo.yaml sensor_model:=sample_sensor_kit vehicle_model:=sample_vehicle map_path:=/autoware/scenario-sim/map/ global_timeout:=240 initialize_duration:=90 launch_autoware:=false rviz:=true"]
+CMD ["ros2 launch scenario_test_runner scenario_test_runner.launch.py architecture_type:=awf/universe record:=false scenario:=/autoware/scenario-sim/yield_maneuver_demo.yaml sensor_model:=sample_sensor_kit vehicle_model:=sample_vehicle map_path:=/autoware/scenario-sim/map/ global_timeout:=240 initialize_duration:=90 launch_autoware:=false launch_rviz:=false"]

@@ -2,8 +2,8 @@ FROM ghcr.io/autowarefoundation/autoware:20240823-runtime AS planning-control
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy simulation files
-RUN mkdir -p /autoware/scenario-sim
 COPY docker/etc/simulation/ /autoware/scenario-sim/
+RUN chmod +x /autoware/scenario-sim/rviz/launch_rviz.sh
 
 # Create entrypoint
 COPY docker/etc/ros_entrypoint.sh /ros_entrypoint.sh
