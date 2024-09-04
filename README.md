@@ -18,33 +18,43 @@ Open AD Kit is also capable of getting OTA updates by using [eSync Alliance's](h
 
  The demo built upon the [AADP](https://www.adlinktech.com/Products/Computer_on_Modules/COM-HPC-Server-Carrier-and-Starter-Kit/AVA_Developer_Platform) from ADLINK, which is a high-performance, high-density, and high-reliability ARM Neoverse N1-based server carrier board. Both AVA Developer Platform and EWAOL lays the foundation for the Open AD Kit to be deployed as a lightweight and scalable software-defined vehicle platform.
 
-## Running the demo
+## Running the demo on single machine
 
-To run the containers on the target machine in this case AADP platform or an EC2-Graviton instance
+To run the both containers on the target machine:
 
 ```bash
 docker/run.sh
 ```
 
-To visualize the simulation on a remote platform which is on the same network with the target machine Run:
+## Running the workload on the target machine and the simulator on the host machine (WIP)
+
+<!-- To run the planning-control workload on the target machine in this case AADP platform or an EC2-Graviton instance:
 
 ```bash
-docker/run-visualizer.sh
+docker/run-planning-control.sh
 ```
+
+To run the simulation on the host machine:
+
+```bash
+docker/run-simulator.sh
+``` -->
+
+---
 
 ### Building the containers from scratch
 
-To build the container images from scratch Run:
+To build the container images from scratch run:
 
 ```bash
 docker/build.sh
 ```
 
-## Further Documentation
+### Further Documentation
 
 To learn more technical details about Autoware,SOAFEE refer to the [Autoware documentation site](https://autowarefoundation.github.io/autoware-documentation/main/), [SOAFEE documentation site](https://gitlab.com/soafee/blueprints).
 
-## Useful resources
+### Useful resources
 - [Autoware Foundation homepage](https://www.autoware.org/)
 - [AVA Developer Platform](https://www.adlinktech.com/Products/Computer_on_Modules/COM-HPC-Server-Carrier-and-Starter-Kit/AVA_Developer_Platform)
 - [ARM Software Defined Vehicle](https://www.arm.com/blogs/blueprint/software-defined-vehicle)
