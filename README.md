@@ -20,10 +20,10 @@ Open AD Kit is also capable of getting OTA updates by using [eSync Alliance's](h
 
 ## Running the demo on single machine
 
-To run the both containers on the target machine:
+To run the both containers on a amd64 machine run:
 
 ```bash
-docker/run.sh
+docker/run.sh --single-machine
 ```
 
 ## Running the workload on the target machine and the simulator on the host machine (WIP)
@@ -44,10 +44,16 @@ docker/run-simulator.sh
 
 ### Building the containers from scratch
 
-To build the container images from scratch run:
+To build the container images for the planning-control(arm64) and simulator(amd64) run:
 
 ```bash
 docker/build.sh
+```
+
+To build the container images for the amd64 architecture run:
+
+```bash
+docker/build.sh --single-machine
 ```
 
 ### Further Documentation
