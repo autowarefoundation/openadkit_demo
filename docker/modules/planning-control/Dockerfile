@@ -1,7 +1,6 @@
 ARG ARCH
 FROM ghcr.io/autowarefoundation/autoware:20240904-runtime-${ARCH} AS planning-control
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-LABEL org.opencontainers.image.source https://github.com/autowarefoundation/openadkit_demo.autoware
 
 # Copy simulation files
 COPY docker/etc/simulation/ /autoware/scenario-sim/

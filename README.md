@@ -26,21 +26,13 @@ To run the both containers on a amd64 machine run:
 docker/run.sh --single-machine
 ```
 
-## Running the workload on the target machine and the simulator on the host machine (WIP)
+## Running the workload on the target machine and the simulator on the host machine
 
-<!-- To run the planning-control workload on the target machine in this case AADP platform or an EC2-Graviton instance:
+To run the planning-control workload on the target machine(arm64) and the simulator on the host machine(amd64) run:
 
 ```bash
-docker/run-planning-control.sh
+./run.sh --target-machine user@ip_address
 ```
-
-To run the simulation on the host machine:
-
-```bash
-docker/run-simulator.sh
-``` -->
-
----
 
 ### Building the containers from scratch
 

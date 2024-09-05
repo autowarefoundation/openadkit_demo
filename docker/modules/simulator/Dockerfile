@@ -1,6 +1,5 @@
-FROM ghcr.io/autowarefoundation/autoware:20240823-runtime AS simulator
+FROM ghcr.io/autowarefoundation/autoware:20240904-runtime-amd64 AS simulator
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-LABEL org.opencontainers.image.source https://github.com/autowarefoundation/openadkit_demo.autoware
 
 COPY --from=ghcr.io/tier4/scenario_simulator_v2:humble-4.0.2 /home/ubuntu/Desktop/scenario_simulator_ws/install /home/ubuntu/Desktop/scenario_simulator_ws/install
 COPY --from=ghcr.io/tier4/scenario_simulator_v2:humble-4.0.2 /home/ubuntu/Desktop/scenario_simulator_ws/src /home/ubuntu/Desktop/scenario_simulator_ws/src
