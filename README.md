@@ -1,4 +1,4 @@
-# Autoware Open AD Kit on CES: A Planning Demonstration
+## Autoware Open AD Kit on CES: A Planning Demonstration
 
 The [Open AD Kit](https://autoware.org/open-ad-kit/) is a collaborative project developed by the [Autoware Foundation](https://www.autoware.org/) and its member companies and alliance partners. It aims to bring software-defined best practices to the [Autoware project](https://autowarefoundation.github.io/autoware-documentation/main/) and to enhance the [Autoware ecosystem](https://autoware.org/about/members/) and capabilities by partnering with other organizations that share the goal of creating software-defined vehicles.
 
@@ -18,7 +18,7 @@ Open AD Kit is also capable of getting OTA updates by using [eSync Alliance's](h
 
  The demo built upon the [AADP](https://www.adlinktech.com/Products/Computer_on_Modules/COM-HPC-Server-Carrier-and-Starter-Kit/AVA_Developer_Platform) from ADLINK, which is a high-performance, high-density, and high-reliability ARM Neoverse N1-based server carrier board. Both AVA Developer Platform and EWAOL lays the foundation for the Open AD Kit to be deployed as a lightweight and scalable software-defined vehicle platform.
 
-## Running the demo on single machine
+### Running the demo on single machine
 
 To run the both containers on a amd64 machine run:
 
@@ -26,7 +26,7 @@ To run the both containers on a amd64 machine run:
 docker/run.sh --single-machine
 ```
 
-## Running the workload on the target machine and the simulator on the host machine
+### Running the workload on the target machine and the simulator on the host machine
 
 To run the planning-control workload on the target machine(arm64) and the simulator on the host machine(amd64) run:
 
