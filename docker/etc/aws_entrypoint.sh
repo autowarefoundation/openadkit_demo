@@ -16,7 +16,7 @@ fi
 # Run the launch command
 echo "Running: $@"
 source "/opt/ros/$ROS_DISTRO/setup.bash"
-source /opt/autoware/setup.bash
+source /autoware/install/setup.bash
 "$@" &
 ros_pid=$!
 
@@ -36,7 +36,7 @@ uploadToS3() {
     echo "S3 object key: $S3_OBJECT_KEY"
     # Trim leading/trailing spaces from S3_BUCKET
     S3_BUCKET=$(echo "$S3_BUCKET" | xargs)
-    
+
     FULL_S3_PATH="s3://${S3_BUCKET}/${S3_OBJECT_KEY}"
     echo "Full S3 path: $FULL_S3_PATH"
 
