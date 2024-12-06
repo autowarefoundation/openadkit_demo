@@ -1,35 +1,35 @@
 services:
   simulator:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-simulator-arm64
+    image: ghcr.io/mitsudome-r/autoware/ces2025:aws-reinvent-simulator-arm64-20241206
     network_mode: "host"
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
     environment:
-      - ROS_DOMAIN_ID=99
+      - ROS_DOMAIN_ID=26
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - SIMULATION_OUTPUT_DIRECTORY=/autoware/result
     command: >
       ros2 launch scenario_test_runner scenario_test_runner.launch.py
       architecture_type:=awf/universe/20240605
       record:=false
-      scenario:=/autoware/scenario-sim/scenario/yield_maneuver_demo.yaml
+      scenario:=/autoware/scenario-sim/yield_maneuver_demo.yaml
       sensor_model:=sample_sensor_kit
       vehicle_model:=sample_vehicle
-      initialize_duration:=90
+      initialize_duration:=120
       global_frame_rate:=15
       launch_autoware:=false
       launch_rviz:=false
       output_directory:=/autoware/result
 
   planning-control:
-    image:  docker pull ghcr.io/autowarefoundation/autoware:universe-arm64
+    image: ghcr.io/mitsudome-r/autoware/ces2025:universe-after-arm64-20241206
     volumes:
-      - ./etc/simulation/config:/autoware/config
-      - ./etc/simulation/config/change_parameters:/usr/local/bin/change_parameters
-      - ./etc/simulation:/autoware/scenario-sim
+      - ./docker/etc/simulation:/autoware/scenario-sim
+      # - ./etc/simulation/config/change_parameters:/usr/local/bin/change_parameters
+      # - ./etc/simulation:/autoware/scenario-sim
     network_mode: "host"
     environment:
-      - ROS_DOMAIN_ID=99
+      - ROS_DOMAIN_ID=26
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - SIMULATION_ID=1
       - PLANNING_OUTPUT_FILE=/autoware/result/planning_result.txt
@@ -39,16 +39,16 @@ services:
       vehicle_model:=sample_vehicle
       sensor_model:=sample_sensor_kit
       scenario_simulation:=true
-      rviz:=false
+      rviz:=false\
       perception/enable_traffic_light:=false
 
   visualizer:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-simulator-arm64
+    image: ghcr.io/mitsudome-r/autoware/ces2025:aws-reinvent-simulator-arm64-20241206
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     network_mode: "host"
     environment:
-      - ROS_DOMAIN_ID=99
+      - ROS_DOMAIN_ID=26
       - DISPLAY=${DISPLAY}
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: >

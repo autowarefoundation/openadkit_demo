@@ -47,6 +47,7 @@ RUN echo "source /autoware/install/setup.bash" > /etc/bash.bashrc
 
 # Copy simulation scenario and map
 COPY docker/etc/simulation /autoware/scenario-sim
+COPY docker/etc/simulation/rviz/autoware.rviz /opt/autoware/share/autoware_launch/rviz/autoware.rviz
 
 # Create entrypoint
 # COPY docker/etc/aws_entrypoint.sh /aws_entrypoint.sh
