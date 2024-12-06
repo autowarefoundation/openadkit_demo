@@ -23,7 +23,7 @@ services:
       output_directory:=/autoware/result"
 
   planning-control:
-    image: ghcr.io/mitsudome-r/autoware/ces2025:universe-after-arm64-20241206
+    image: ghcr.io/mitsudome-r/autoware/ces2025:universe-before-arm64-20241206
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
       # - ./etc/simulation/config/change_parameters:/usr/local/bin/change_parameters
@@ -47,10 +47,11 @@ services:
     image: ghcr.io/mitsudome-r/autoware/ces2025:aws-reinvent-simulator-arm64-20241206
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./etc/simulation:/autoware/scenario-sim
     network_mode: "host"
     environment:
       - ROS_DOMAIN_ID=26
       - DISPLAY=${DISPLAY}
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: >
-      rviz2 -d /opt/autoware/share/autoware_launch/rviz/autoware.rviz
+      rviz2 -d /autoware/scenario-sim/rviz/autoware.rviz

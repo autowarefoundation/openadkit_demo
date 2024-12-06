@@ -43,14 +43,16 @@ services:
       rviz:=false
       perception/enable_traffic_light:=false"
 
+
   visualizer:
     image: ghcr.io/mitsudome-r/autoware/ces2025:aws-reinvent-simulator-arm64-20241206
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./etc/simulation:/autoware/scenario-sim
     network_mode: "host"
     environment:
       - ROS_DOMAIN_ID=26
       - DISPLAY=${DISPLAY}
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: >
-      rviz2 -d /opt/autoware/share/autoware_launch/rviz/autoware.rviz
+      rviz2 -d /autoware/scenario-sim/rviz/autoware.rviz
