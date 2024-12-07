@@ -13,6 +13,7 @@ sleep 100
 echo "terminating containers"
 
 docker container stop $(docker ps -aq)
+docker container rm $(docker ps -aq)
 
 sleep 3
 
