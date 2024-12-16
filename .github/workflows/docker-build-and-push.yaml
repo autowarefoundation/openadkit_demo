@@ -60,7 +60,7 @@ jobs:
         with:
           name: ${{ matrix.name }}
           platform: ${{ matrix.platform }}
-          bake-target: openadkit_demo.autoware
+          bake-target: demo-packages
           build-args: |
             *.platform=linux/${{ matrix.platform }}
             *.args.ROS_DISTRO=${{ needs.load-env.outputs.rosdistro }}

@@ -129,9 +129,9 @@ build_images() {
         --set "*.args.BASE_IMAGE=$base_image" \
         --set "*.args.SETUP_ARGS=$setup_args" \
         --set "*.args.LIB_DIR=$lib_dir" \
-        --set "simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:simulator" \
-        --set "planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:planning-control" \
-        --set "visualizer.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:visualizer" \
+        --set "simulator.tags=ghcr.io/autowarefoundation/demo-packages:simulator" \
+        --set "planning-control.tags=ghcr.io/autowarefoundation/demo-packages:planning-control" \
+        --set "visualizer.tags=ghcr.io/autowarefoundation/demo-packages:visualizer" \
         "${targets[@]}"
     set +x
 }
