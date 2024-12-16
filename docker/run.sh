@@ -9,7 +9,7 @@ export COMMON_FILE=$SCRIPT_DIR/etc/simulation/config/common.param.yaml
 # export NGROK_URL=your-ngrok-url
 
 # Start visualizer
-TIMEOUT=60 CONF_FILE=$CONF_FILE_PASS docker compose -f "$SCRIPT_DIR/docker-compose.yml" up web-visualizer -d
+docker compose -f "$SCRIPT_DIR/docker-compose.yml" up web-visualizer -d
 
 # Start planning-control and simulator
 while true; do

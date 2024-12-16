@@ -8,7 +8,6 @@ services:
     environment:
       - ROS_DOMAIN_ID=88
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - SIMULATION_OUTPUT_DIRECTORY=/autoware/result
     command: >
       ros2 launch scenario_test_runner scenario_test_runner.launch.py
       architecture_type:=awf/universe/20240605
@@ -29,7 +28,6 @@ services:
     depends_on:
       - simulator 
     volumes:
-      - ./etc/simulation/config:/autoware/config
       - ./etc/simulation:/autoware/scenario-sim
       - $CONF_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/autoware_behavior_path_static_obstacle_avoidance_module/static_obstacle_avoidance.param.yaml
       - $COMMON_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/common/common.param.yaml
@@ -37,8 +35,6 @@ services:
     environment:
       - ROS_DOMAIN_ID=88
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - SIMULATION_ID=1
-      - PLANNING_OUTPUT_FILE=/autoware/result/planning_result.txt
     command: >
       ros2 launch autoware_launch planning_simulator.launch.xml
       map_path:=/autoware/scenario-sim/map
@@ -57,9 +53,8 @@ services:
       - ./etc/simulation:/autoware/scenario-sim
     environment:
       - ROS_DOMAIN_ID=88
+      - VNC_ENABLED=true
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
       - NGROK_URL=${NGROK_URL}
-      - VNC_ENABLED=true
     command: >-
       sleep infinity
-
