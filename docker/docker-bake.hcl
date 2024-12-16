@@ -1,29 +1,29 @@
 group "default" {
   targets = [
-    "aws-reinvent-simulator-devel",
-    "aws-reinvent-simulator",
-    "aws-reinvent-planning-control"
+    "simulator",
+    "planning-control",
+    "visualizer"
   ]
 }
 
-target "docker-metadata-action-aws-reinvent-simulator-devel" {}
-target "docker-metadata-action-aws-reinvent-simulator" {}
-target "docker-metadata-action-aws-reinvent-planning-control" {}
+target "docker-metadata-action-simulator" {}
+target "docker-metadata-action-planning-control" {}
+target "docker-metadata-action-visualizer" {}
 
-target "aws-reinvent-simulator-devel" {
-  inherits = ["docker-metadata-action-aws-reinvent-simulator-devel"]
-  dockerfile = "docker/Dockerfile"
-  target = "aws-reinvent-simulator-devel"
+target "visualizer" {
+  inherits = ["docker-metadata-action-visualizer"]
+  dockerfile = "docker/visualizer/Dockerfile"
+  target = "visualizer"
 }
 
-target "aws-reinvent-simulator" {
-  inherits = ["docker-metadata-action-aws-reinvent-simulator"]
+target "simulator" {
+  inherits = ["docker-metadata-action-simulator"]
   dockerfile = "docker/Dockerfile"
-  target = "aws-reinvent-simulator"
+  target = "simulator"
 }
 
-target "aws-reinvent-planning-control" {
-  inherits = ["docker-metadata-action-aws-reinvent-planning-control"]
+target "planning-control" {
+  inherits = ["docker-metadata-action-planning-control"]
   dockerfile = "docker/Dockerfile"
-  target = "aws-reinvent-planning-control"
+  target = "planning-control"
 }

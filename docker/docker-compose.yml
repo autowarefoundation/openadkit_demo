@@ -1,6 +1,6 @@
 services:
   simulator:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-simulator-arm64
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:simulator
     network_mode: "host"
     restart: always
     volumes:
@@ -24,13 +24,12 @@ services:
       output_directory:=/autoware/result
 
   planning-control:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-planning-control-arm64
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:planning-control
     restart: always
     depends_on:
       - simulator 
     volumes:
       - ./etc/simulation/config:/autoware/config
-      - ./etc/simulation/config/change_parameters:/usr/local/bin/change_parameters
       - ./etc/simulation:/autoware/scenario-sim
       - $CONF_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/autoware_behavior_path_static_obstacle_avoidance_module/static_obstacle_avoidance.param.yaml
       - $COMMON_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/common/common.param.yaml
@@ -50,7 +49,7 @@ services:
       perception/enable_traffic_light:=false
 
   web-visualizer:
-    image: ghcr.io/autowarefoundation/demo_packages:simulator-visualizer-arm64
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:visualizer
     container_name: web-visualizer
     network_mode: "host"
     restart: on-failure

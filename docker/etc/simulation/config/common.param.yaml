@@ -1,6 +1,6 @@
 /**:
   ros__parameters:
-    max_vel: 9.0
+    max_vel: 10.0
 
     # constraints param for normal driving
     normal:

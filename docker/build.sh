@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-
 set -e
 
-# Function to print help message
+# Configuration
+SCRIPT_DIR=$(readlink -f "$(dirname "$0")")
+WORKSPACE_ROOT="$SCRIPT_DIR/.."
+
 print_help() {
     echo "Usage: build.sh [OPTIONS]"
     echo "Options:"
@@ -15,10 +17,6 @@ print_help() {
     echo "Note: The --platform option should be one of 'linux/amd64' or 'linux/arm64'."
 }
 
-SCRIPT_DIR=$(readlink -f "$(dirname "$0")")
-WORKSPACE_ROOT="$SCRIPT_DIR/.."
-
-# Parse arguments
 parse_arguments() {
     while [ "$1" != "" ]; do
         case "$1" in
@@ -46,7 +44,6 @@ parse_arguments() {
     done
 }
 
-# Set CUDA options
 set_cuda_options() {
     if [ "$option_no_cuda" = "true" ]; then
         setup_args="--no-nvidia"
@@ -56,7 +53,6 @@ set_cuda_options() {
     fi
 }
 
-# Set build options
 set_build_options() {
     if [ "$option_devel_only" = "true" ]; then
         targets=("universe-devel")
@@ -65,7 +61,6 @@ set_build_options() {
     fi
 }
 
-# Set platform
 set_platform() {
     if [ -n "$option_platform" ]; then
         platform="$option_platform"
@@ -77,7 +72,6 @@ set_platform() {
     fi
 }
 
-# Set arch lib dir
 set_arch_lib_dir() {
     if [ "$platform" = "linux/arm64" ]; then
         lib_dir="aarch64"
@@ -89,7 +83,6 @@ set_arch_lib_dir() {
     fi
 }
 
-# Load env
 load_env() {
     source "$WORKSPACE_ROOT/amd64.env"
     if [ "$platform" = "linux/arm64" ]; then
@@ -97,7 +90,6 @@ load_env() {
     fi
 }
 
-# Clone repositories
 clone_repositories() {
     cd "$WORKSPACE_ROOT"
     if [ ! -d "src" ]; then
@@ -112,7 +104,10 @@ clone_repositories() {
     fi
 }
 
-# Build images
+remove_dangling_images() {
+    docker image prune -f
+}
+
 build_images() {
     # https://github.com/docker/buildx/issues/484
     export BUILDKIT_STEP_LOG_MAX_SIZE=10000000
@@ -134,19 +129,14 @@ build_images() {
         --set "*.args.BASE_IMAGE=$base_image" \
         --set "*.args.SETUP_ARGS=$setup_args" \
         --set "*.args.LIB_DIR=$lib_dir" \
-        --set "aws-reinvent-simulator-devel.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-simulator-devel" \
-        --set "aws-reinvent-simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-simulator" \
-        --set "aws-reinvent-planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:aws-reinvent-planning-control" \
+        --set "simulator.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:simulator" \
+        --set "planning-control.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:planning-control" \
+        --set "visualizer.tags=ghcr.io/autowarefoundation/openadkit_demo.autoware:visualizer" \
         "${targets[@]}"
     set +x
 }
 
-# Remove dangling images
-remove_dangling_images() {
-    docker image prune -f
-}
-
-# Main script execution
+##### Main #####
 parse_arguments "$@"
 set_cuda_options
 set_build_options
