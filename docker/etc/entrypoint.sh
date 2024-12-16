@@ -2,8 +2,8 @@
 
 configure_vnc() {
     # Start VNC server
-    echo "VNC is not enabled. Skipping VNC server start."
-    vncserver :1 -auth $HOME/.Xauthority -geometry 1024x768 -depth 16 -pixelformat rgb565 >/dev/null 2>&1
+    echo "Starting VNC server..."
+    vncserver :1 -auth "$HOME"/.Xauthority -geometry 1024x768 -depth 16 -pixelformat rgb565 >/dev/null 2>&1
     VNC_RESULT=$?
 
     if [ $VNC_RESULT -ne 0 ]; then
@@ -13,6 +13,7 @@ configure_vnc() {
     sleep 2
 
     # Start NoVNC
+    echo "Starting NoVNC..."
     websockify --daemon --web=/usr/share/novnc/ --cert=/etc/ssl/certs/novnc.crt --key=/etc/ssl/private/novnc.key 6080 localhost:5901
     NOVNC_URL="localhost:6080"
 
@@ -35,11 +36,10 @@ configure_vnc() {
     echo -e "\033[32mVNC server is running and accessible at localhost:5901 via VNC viewer\033[0m"
     echo -e "\033[32mNoVNC web interface available at $NOVNC_URL/vnc.html via web browser\033[0m"
     echo -e "\033[32m-------------------------------------------------------------------------\033[0m"
-
 }
 
 # Run command
 [ "$VNC_ENABLED" == "true" ] && configure_vnc
 source "/opt/ros/$ROS_DISTRO/setup.bash"
-source /opt/autoware/setup.bash
+source "/opt/autoware/setup.bash"
 exec "$@"

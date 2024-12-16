@@ -1,8 +1,6 @@
 services:
   simulator:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:simulator
-    network_mode: "host"
-    restart: always
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:simulator-amd64
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
     environment:
@@ -10,7 +8,6 @@ services:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     command: >
       ros2 launch scenario_test_runner scenario_test_runner.launch.py
-      architecture_type:=awf/universe/20240605
       record:=false
       scenario:=/autoware/scenario-sim/scenario/yield_maneuver_demo.yaml
       sensor_model:=sample_sensor_kit
@@ -20,18 +17,15 @@ services:
       global_frame_rate:=20
       launch_autoware:=false
       launch_rviz:=false
-      output_directory:=/autoware/result
 
   planning-control:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:planning-control
-    restart: always
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:planning-control-amd64
     depends_on:
       - simulator 
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
       - $CONF_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/autoware_behavior_path_static_obstacle_avoidance_module/static_obstacle_avoidance.param.yaml
       - $COMMON_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/common/common.param.yaml
-    network_mode: "host"
     environment:
       - ROS_DOMAIN_ID=88
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
@@ -44,11 +38,9 @@ services:
       rviz:=false
       perception/enable_traffic_light:=false
 
-  web-visualizer:
-    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:visualizer
-    container_name: web-visualizer
-    network_mode: "host"
-    restart: on-failure
+  visualizer:
+    image: ghcr.io/autowarefoundation/openadkit_demo.autoware:visualizer-amd64
+    container_name: visualizer
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
     environment:

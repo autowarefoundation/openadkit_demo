@@ -1,11 +1,11 @@
 ARG PLATFORM
 ARG ROS_DISTRO
 
-# Build Stage
+### Builder
 FROM ghcr.io/autowarefoundation/autoware:universe-devel AS builder
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ENV CCACHE_DIR="/root/.ccache"
-
+WORKDIR /autoware
 COPY src /autoware/src
 
 # Install dependencies and build the simulator
@@ -28,8 +28,9 @@ RUN --mount=type=ssh \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* "$HOME"/.cache
 
-# Simulator
+### Simulator
 FROM ghcr.io/autowarefoundation/autoware:universe AS simulator
+WORKDIR /autoware
 COPY src /autoware/src
 COPY --from=builder /opt/autoware /opt/autoware
 COPY docker/etc/simulation /autoware/scenario-sim
@@ -39,7 +40,6 @@ RUN --mount=type=ssh \
     apt-get update && \
     apt-get install -y curl unzip && \
     rosdep update && \
-    cd /autoware && \
     rosdep install -y --from-paths src --ignore-src --dependency-types=exec --rosdistro $ROS_DISTRO && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* "$HOME"/.cache && \
@@ -50,7 +50,7 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash"]
 
-# Visualizer
+### Visualizer
 FROM simulator AS visualizer
 WORKDIR /autoware
 
@@ -84,13 +84,16 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | \
   tee /etc/apt/sources.list.d/ngrok.list && \
   apt update && apt install ngrok
 
+# Need to expose VNC and NoVNC ports when running the container
+EXPOSE 5900 6080
+
 # Copy entrypoint script
 COPY docker/etc/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash"]
 
-# Planning Control
+### Planning Control
 FROM ghcr.io/autowarefoundation/autoware:universe AS planning-control
 
 RUN --mount=type=ssh \
@@ -100,9 +103,7 @@ RUN --mount=type=ssh \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* "$HOME"/.cache
 
-# Need to expose VNC and NoVNC ports when running the container
-EXPOSE 5900 6080
-
+# Copy entrypoint script
 COPY docker/etc/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
