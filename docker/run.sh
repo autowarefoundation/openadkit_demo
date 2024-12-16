@@ -4,6 +4,7 @@
 export SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export CONF_FILE_PASS=$SCRIPT_DIR/etc/simulation/config/pass_static_obstacle_avoidance.param.yaml
 export CONF_FILE_FAIL=$SCRIPT_DIR/etc/simulation/config/fail_static_obstacle_avoidance.param.yaml
+export CONF_FILE=$CONF_FILE_FAIL
 export COMMON_FILE=$SCRIPT_DIR/etc/simulation/config/common.param.yaml
 export NGROK_AUTHTOKEN=2guulYxBHQKJpe37Qp4PexfzXQm_3HSWKfiUgtKyxKmz2PJBo #your-auth-token via https://dashboard.ngrok.com/get-started/your-authtoken
 export NGROK_URL=simviz.openadkit.ngrok.app #your-ngrok-url via https://dashboard.ngrok.com/domains
