@@ -25,7 +25,7 @@ runs:
       run: |
         sudo apt-get -y update
         sudo apt-get -y install jq python3-pip
-        pip install --no-cache-dir --break-system-packages vcstool 
+        pip install --no-cache-dir vcstool 
       shell: bash
 
     - name: Run vcs import
