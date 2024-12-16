@@ -12,7 +12,7 @@ target "docker-metadata-action-visualizer" {}
 
 target "visualizer" {
   inherits = ["docker-metadata-action-visualizer"]
-  dockerfile = "docker/visualizer/Dockerfile"
+  dockerfile = "docker/Dockerfile"
   target = "visualizer"
 }
 

@@ -43,8 +43,7 @@ RUN --mount=type=ssh \
     rosdep install -y --from-paths src --ignore-src --dependency-types=exec --rosdistro $ROS_DISTRO && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* "$HOME"/.cache && \
-    echo "source /opt/autoware/setup.bash" > /etc/bash.bashrc && \
-    chmod +x /entrypoint.sh
+    echo "source /opt/autoware/setup.bash" > /etc/bash.bashrc
 
 COPY docker/etc/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -85,9 +84,6 @@ RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | \
   tee /etc/apt/sources.list.d/ngrok.list && \
   apt update && apt install ngrok
 
-# Need to expose VNC and NoVNC ports when running the container
-EXPOSE 5900 6080
-
 # Copy entrypoint script
 COPY docker/etc/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -102,8 +98,10 @@ RUN --mount=type=ssh \
     apt-get update && \
     apt-get install -y curl unzip && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* "$HOME"/.cache && \
-    chmod +x /entrypoint.sh
+    rm -rf /var/lib/apt/lists/* "$HOME"/.cache
+
+# Need to expose VNC and NoVNC ports when running the container
+EXPOSE 5900 6080
 
 COPY docker/etc/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
