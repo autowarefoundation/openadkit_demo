@@ -22,8 +22,8 @@ fi
 
 # Start visualizer and show logs
 docker compose -f "$SCRIPT_DIR/docker-compose.yml" up visualizer -d
-echo "Waiting 5 seconds for visualizer to start..."
-sleep 5
+echo "Waiting 10 seconds for visualizer to start..."
+sleep 10
 docker compose -f "$SCRIPT_DIR/docker-compose.yml" logs visualizer
 
 # Start planning-control and simulator
