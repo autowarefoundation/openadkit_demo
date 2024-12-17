@@ -6,8 +6,8 @@ export CONF_FILE_PASS=$SCRIPT_DIR/etc/simulation/config/pass_static_obstacle_avo
 export CONF_FILE_FAIL=$SCRIPT_DIR/etc/simulation/config/fail_static_obstacle_avoidance.param.yaml
 export CONF_FILE=$CONF_FILE_FAIL
 export COMMON_FILE=$SCRIPT_DIR/etc/simulation/config/common.param.yaml
-export NGROK_AUTHTOKEN= #your-auth-token via https://dashboard.ngrok.com/get-started/your-authtoken
-export NGROK_URL= #your-ngrok-url via https://dashboard.ngrok.com/domains
+export NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN #your-auth-token via https://dashboard.ngrok.com/get-started/your-authtoken
+export NGROK_URL=$NGROK_URL #your-ngrok-url via https://dashboard.ngrok.com/domains
 
 if [ -z "$NGROK_AUTHTOKEN" ]; then
     echo "Skipping NGROK setup as NGROK_AUTHTOKEN is not set."

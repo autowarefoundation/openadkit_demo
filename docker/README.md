@@ -1,99 +1,55 @@
-# Open AD Kit: containerized workloads for Autoware
+# Autoware Open AD Kit - Planning Visualizer Demo
 
-[Open AD Kit](https://autoware.org/open-ad-kit/) offers containers for Autoware to simplify the development and deployment of Autoware and its dependencies. This directory contains scripts to build and run the containers.
+A containerized setup for Autoware Open AD Kit providing simulation, planning/control, and visualization capabilities.
 
-Detailed instructions on how to use the containers can be found in the [Open AD Kit documentation](https://autowarefoundation.github.io/autoware-documentation/main/installation/autoware/docker-installation/).
+## Quick Start
 
-## Multi-stage Dockerfile structure
+1. Set required ngrok variables if you want to access the visualizer remotely via WEB:
 
-![](./Dockerfile.svg)
+    ```bash
+    export NGROK_AUTHTOKEN=#Your ngrok auth token via https://dashboard.ngrok.com/get-started/your-authtoken
+    export NGROK_URL=#Your ngrok URL via https://dashboard.ngrok.com/domains
+    ```
 
-The suffix `-devel` (e.g. `universe-devel`) is intended for use as a [development container](https://containers.dev). On the other hand, those without the `-devel` suffix (e.g. `universe`) are intended to be used as a runtime container.
+2. Start the containers:
 
-### `$BASE_IMAGE`
+    ```bash
+    ./run.sh
+    ```
 
-This is a base image of this Dockerfile. [`ros:humble-ros-base-jammy`](https://hub.docker.com/_/ros/tags?page=&page_size=&ordering=&name=humble-ros-base-jammy) will be given.
+3. Access visualization at:
+   - Local: <http://localhost:6080>
+   - Remote: Via Ngrok URL (if configured)
 
-### `base`
+## Container Overview
 
-This stage performs only the basic setup required for all Autoware images.
+### Simulator
 
-### `rosdep-depend`
+- Runs scenario-based simulations
+- Mounts scenarios from `./etc/simulation`
 
-The ROS dependency package list files will be generated.
-These files will be used in the subsequent stages:
+### Planning/Control
 
-- `core-devel`
-- `universe-common`
-- `universe-COMPONENT-devel` (e.g. `universe-sensing-perception-devel`)
-- `universe-COMPONENT` (e.g. `universe-sensing-perception`)
-- `universe-devel`
-- `universe`
+- Handles Autoware's planning and control stack
+- Configurable via mounted parameter files
+- Depends on simulator container
 
-By generating only the package list files and copying them to the subsequent stages, the dependency packages will not be reinstalled during the container build process unless the dependency packages change.
+### Visualizer
 
-### `core-devel`
+- Provides VNC/NoVNC-based visualization
+- Default VNC password: "openadkit"
+- Optional Ngrok integration for remote access
 
-This stage installs the dependency packages based on `/rosdep-core-depend-packages.txt` and build the packages under the `core` directory of `autoware.repos`.
+## Development
 
-### `universe-common-devel`
+Build containers locally:
 
-This stage installs the dependency packages based on `/rosdep-universe-common-depend-packages.txt` and build the packages under the following directories of `autoware.repos`.
+    ./build.sh
 
-- `universe/external`
-- `universe/autoware.universe/common`
+## Prerequisites
 
-### `universe-sensing-perception-devel`
+- Docker Engine 20.10+
+- Docker Compose v2.0+
+- 16GB RAM recommended
 
-This stage installs the dependency packages based on `/rosdep-universe-sensing-perception-depend-packages.txt` and build the packages under the following directories of `autoware.repos`.
-
-- `universe/autoware.universe/perception`
-- `universe/autoware.universe/sensing`
-
-### `universe-sensing-perception`
-
-This stage is a Autoware Universe Sensing/Perception runtime container. It only includes the dependencies given by `/rosdep-universe-sensing-perception-exec-depend-packages.txt` and the binaries built in the `universe-sensing-perception-devel` stage.
-
-### `universe-localization-mapping-devel`
-
-This stage installs the dependency packages based on `/rosdep-universe-localization-mapping-depend-packages.txt` and build the packages under the following directories of `autoware.repos`.
-
-- `universe/autoware.universe/localization`
-- `universe/autoware.universe/map`
-
-### `universe-localization-mapping`
-
-This stage is a Autoware Universe Localization/Mapping runtime container. It only includes the dependencies given by `/rosdep-universe-localization-mapping-exec-depend-packages.txt` and the binaries built in the `universe-localization-mapping-devel` stage.
-
-### `universe-planning-control-devel`
-
-This stage installs the dependency packages based on `/rosdep-universe-planning-control-depend-packages.txt` and build the packages under the following directories of `autoware.repos`.
-
-- `universe/autoware.universe/control`
-- `universe/autoware.universe/planning`
-
-### `universe-planning-control`
-
-This stage is a Autoware Universe Planning/Control runtime container. It only includes the dependencies given by `/rosdep-universe-planning-control-exec-depend-packages.txt` and the binaries built in the `universe-planning-control-devel` stage.
-
-### `universe-devel`
-
-This stage installs the dependency packages based on `/rosdep-universe-depend-packages.txt` and build the remaining packages of `autoware.repos`:
-
-- `launcher`
-- `param`
-- `sensor_component`
-- `sensor_kit`
-- `universe/autoware.universe/evaluator`
-- `universe/autoware.universe/launch`
-- `universe/autoware.universe/simulator`
-- `universe/autoware.universe/system`
-- `universe/autoware.universe/tools`
-- `universe/autoware.universe/vehicle`
-- `vehicle`
-
-This stage provides an all-in-one development container to Autoware developers. By running the host's source code with volume mounting, it allows for easy building and debugging of Autoware.
-
-### `universe`
-
-This stage is an Autoware Universe runtime container. It only includes the dependencies given by `/rosdep-exec-depend-packages.txt`, the binaries built in the `universe-devel` stage, and artifacts.
+For detailed documentation, visit [Open AD Kit Documentation](https://autowarefoundation.github.io/autoware-documentation/main/installation/autoware/docker-installation/).
