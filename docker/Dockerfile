@@ -57,7 +57,7 @@ WORKDIR /autoware
 # Install openbox and VNC requirements
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     curl unzip openbox tigervnc-standalone-server tigervnc-common \
-    novnc websockify python3-numpy \
+    novnc websockify python3-numpy python3-xdg \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -65,10 +65,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN mkdir -p ~/.vnc && \
     echo "openadkit" | vncpasswd -f > ~/.vnc/passwd && \
     chmod 600 ~/.vnc/passwd
-
-# Set up xstartup script
-COPY docker/etc/xstartup /root/.vnc/xstartup
-RUN chmod +x /root/.vnc/xstartup
 
 # Create SSL certificate for NoVNC
 RUN openssl req -x509 -nodes -newkey rsa:2048 \
@@ -78,18 +74,21 @@ RUN openssl req -x509 -nodes -newkey rsa:2048 \
     -subj "/O=Autoware-OpenADKit/CN=localhost"
 
 # Install ngrok
-RUN curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | \
-  gpg --dearmor -o /etc/apt/keyrings/ngrok.gpg && \
-  echo "deb [signed-by=/etc/apt/keyrings/ngrok.gpg] https://ngrok-agent.s3.amazonaws.com buster main" | \
-  tee /etc/apt/sources.list.d/ngrok.list && \
-  apt update && apt install ngrok
+RUN wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz && \
+    tar xvzf ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin && \
+    rm ngrok-v3-stable-linux-amd64.tgz
 
 # Need to expose VNC and NoVNC ports when running the container
 EXPOSE 5900 6080
 
-# Copy entrypoint script
+# Add source commands to bash startup
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc && \
+    echo "source /opt/autoware/setup.bash" >> /root/.bashrc
+
+# Copy startup scripts
+COPY docker/etc/xstartup /root/.vnc/xstartup
 COPY docker/etc/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && chmod +x /root/.vnc/xstartup
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash"]
 

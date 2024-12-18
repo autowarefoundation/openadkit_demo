@@ -48,6 +48,7 @@ services:
     environment:
       - ROS_DOMAIN_ID=88
       - VNC_ENABLED=true
+      - RVIZ_CONFIG=/autoware/scenario-sim/rviz/scenario_simulator.rviz
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
       - NGROK_URL=${NGROK_URL}
     command: >-
