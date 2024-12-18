@@ -54,9 +54,9 @@ CMD ["/bin/bash"]
 FROM simulator AS visualizer
 WORKDIR /autoware
 
-# Install VNC server with NoVNC
+# Install openbox and VNC requirements
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    curl unzip lxde tigervnc-standalone-server tigervnc-common \
+    curl unzip openbox tigervnc-standalone-server tigervnc-common \
     novnc websockify python3-numpy \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*

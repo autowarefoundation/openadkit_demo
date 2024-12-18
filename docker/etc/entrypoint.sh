@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
 configure_vnc() {
-    # Start VNC server
-    echo "Starting VNC server..."
-    vncserver :1 -auth "$HOME"/.Xauthority -geometry 1024x768 -depth 16 -pixelformat rgb565 >/dev/null 2>&1
+    # Start VNC server with Openbox
+    echo "Starting VNC server with Openbox..."
+    vncserver :1 -rfbport 5901 -auth "$HOME"/.Xauthority -geometry 1280x1024 -depth 16 -pixelformat rgb565 \
+        -xstartup /root/.vnc/xstartup >/dev/null 2>&1
     VNC_RESULT=$?
 
     if [ $VNC_RESULT -ne 0 ]; then
         echo "Failed to start VNC server (exit code: $VNC_RESULT)"
         exit $VNC_RESULT
     fi
+    
+    # Set the DISPLAY variable to match VNC server
+    export DISPLAY=:1
     sleep 2
 
     # Start NoVNC
