@@ -45,6 +45,9 @@ services:
     container_name: visualizer
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
+    ports:
+      - 6080:6080
+      - 5999:5999
     environment:
       - ROS_DOMAIN_ID=88
       - VNC_ENABLED=true
