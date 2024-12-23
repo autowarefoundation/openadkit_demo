@@ -16,7 +16,7 @@ A containerized setup for Autoware Open AD Kit providing simulation, planning/co
 
 > **Note** *(Optional)*
 >
-> If you do not have a static public ip and still want to access the visualizer remotely via WEB, set up ngrok:
+> If you do not have a static public ip and still want to access the visualizer remotely via WEB, set environment variable `NGROK_AUTHTOKEN` to your ngrok auth token:
 >
 >```bash
 > export NGROK_AUTHTOKEN=#Your ngrok auth token via https://dashboard.ngrok.com/get-started/your-authtoken
