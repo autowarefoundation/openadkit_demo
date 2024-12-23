@@ -9,7 +9,6 @@ export COMMON_FILE=$SCRIPT_DIR/etc/simulation/config/common.param.yaml
 export NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN #your-auth-token via https://dashboard.ngrok.com/get-started/your-authtoken
 export NGROK_URL=$NGROK_URL #If you have paid account, your-ngrok-url via https://dashboard.ngrok.com/domains
 
-
 # Start visualizer and show logs
 docker compose -f "$SCRIPT_DIR/docker-compose.yml" up visualizer -d
 echo "Waiting 10 seconds for visualizer to start..."
