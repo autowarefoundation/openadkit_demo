@@ -4,22 +4,23 @@ A containerized setup for Autoware Open AD Kit providing simulation, planning/co
 
 ## Quick Start
 
-1. Set required ngrok variables if you want to access the visualizer remotely via WEB:
-
-    ```bash
-    export NGROK_AUTHTOKEN=#Your ngrok auth token via https://dashboard.ngrok.com/get-started/your-authtoken
-    export NGROK_URL=#Your ngrok URL via https://dashboard.ngrok.com/domains
-    ```
-
-2. Start the containers:
+1. Start the containers:
 
     ```bash
     ./run.sh
     ```
 
-3. Access visualization at:
-   - Local: <http://localhost:6080>
-   - Remote: Via Ngrok URL (if configured)
+2. Access visualization at:
+   - Local: <http://localhost:6080/vnc.html>
+   - Remote: Via <http://public-ip:6080/vnc.html> if you have a static public ip
+
+> **Note** *(Optional)*
+>
+> If you do not have a static public ip and still want to access the visualizer remotely via WEB, set up ngrok:
+>
+>```bash
+> export NGROK_AUTHTOKEN=#Your ngrok auth token via https://dashboard.ngrok.com/get-started/your-authtoken
+>```
 
 ## Container Overview
 
