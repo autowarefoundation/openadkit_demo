@@ -10,17 +10,25 @@ A containerized setup for Autoware Open AD Kit providing simulation, planning/co
     ./run.sh
     ```
 
-2. Access visualization at:
+2. Access visualization at the following URLs:
    - Local: <http://localhost:6080/vnc.html>
-   - Remote: Via <http://public-ip:6080/vnc.html> if you have a static public ip
+   - Remote: Via <http://your-public-ip:6080/vnc.html> (if you have a static public ip)
 
 > **Note** *(Optional)*
 >
-> If you do not have a static public ip and still want to access the visualizer remotely via WEB, set environment variable `NGROK_AUTHTOKEN` to your ngrok auth token:
+> If you do not have a static public ip and still want to access the visualizer remotely via WEB, set environment variable `NGROK_AUTHTOKEN`
 >
 >```bash
 > export NGROK_AUTHTOKEN=#Your ngrok auth token via https://dashboard.ngrok.com/get-started/your-authtoken
 >```
+>
+>If you have a paid ngrok account, you can set `NGROK_URL` to your ngrok url:
+>
+>```bash
+> export NGROK_URL=#Your ngrok url via https://dashboard.ngrok.com/domains
+>```
+>
+> Then you can access the visualizer via WEB at <http://your-ngrok-public-url:6080/vnc.html>
 
 ## Container Overview
 

@@ -70,7 +70,7 @@ EOF
     # Print info
     echo -e "\033[32m-------------------------------------------------------------------------\033[0m"
     echo -e "\033[32mBrowser interface available at local address http://$(hostname -I | cut -d' ' -f1):6080/vnc.html\033[0m"
-    echo -e "\033[32mIf you have a static public ip you can access it on WEB at http://$(curl -s ifconfig.me):6080/vnc.html\033[0m"
+    [ -z "$NGROK_AUTHTOKEN" ] && echo -e "\033[32mIf you have a static public ip you can access it on WEB at http://$(curl -s ifconfig.me):6080/vnc.html\033[0m"
     [ -n "$NGROK_AUTHTOKEN" ] && echo -e "\033[32mBrowser interface available at WEB address $NGROK_URL/vnc.html\033[0m"
     echo -e "\033[32m-------------------------------------------------------------------------\033[0m"
 }
