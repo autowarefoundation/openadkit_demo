@@ -15,12 +15,4 @@ echo "Waiting 10 seconds for visualizer to start..."
 sleep 10
 docker compose -f "$SCRIPT_DIR/docker-compose.yml" logs visualizer
 
-# Start planning-control and simulator
-while true; do
-    echo "Updating planning container.."
-    echo "Running planning v1.."
-    TIMEOUT=70 CONF_FILE=$CONF_FILE_FAIL docker compose -f "$SCRIPT_DIR/docker-compose.yml" up planning-control simulator --abort-on-container-exit
-    echo "Updating planning container.."
-    echo "Running planning v2.."
-    TIMEOUT=120 CONF_FILE=$CONF_FILE_PASS docker compose -f "$SCRIPT_DIR/docker-compose.yml" up planning-control simulator --abort-on-container-exit
-done
+TIMEOUT=70 CONF_FILE=$CONF_FILE_PASS docker compose -f "$SCRIPT_DIR/docker-compose.yml" up planning-control

@@ -1,29 +1,7 @@
 services:
-  simulator:
-    image: ghcr.io/autowarefoundation/demo-packages:simulator
-    container_name: simulator
-    volumes:
-      - ./etc/simulation:/autoware/scenario-sim
-    environment:
-      - ROS_DOMAIN_ID=88
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    command: >
-      ros2 launch scenario_test_runner scenario_test_runner.launch.py
-      record:=false
-      scenario:=/autoware/scenario-sim/scenario/yield_maneuver_demo.yaml
-      sensor_model:=sample_sensor_kit
-      vehicle_model:=sample_vehicle
-      initialize_duration:=90
-      global_timeout:=$TIMEOUT
-      global_frame_rate:=20
-      launch_autoware:=false
-      launch_rviz:=false
-
   planning-control:
     image: ghcr.io/autowarefoundation/demo-packages:planning-control
     container_name: planning-control
-    depends_on:
-      - simulator 
     volumes:
       - ./etc/simulation:/autoware/scenario-sim
       - $CONF_FILE:/opt/autoware/share/autoware_launch/config/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/autoware_behavior_path_static_obstacle_avoidance_module/static_obstacle_avoidance.param.yaml
@@ -36,7 +14,6 @@ services:
       map_path:=/autoware/scenario-sim/map
       vehicle_model:=sample_vehicle
       sensor_model:=sample_sensor_kit
-      scenario_simulation:=true
       rviz:=false
       perception/enable_traffic_light:=false
 
@@ -51,8 +28,6 @@ services:
     environment:
       - ROS_DOMAIN_ID=88
       - VNC_ENABLED=true
-      - RVIZ_CONFIG=/autoware/scenario-sim/rviz/scenario_simulator.rviz
-      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-      - NGROK_URL=${NGROK_URL}
+      - RVIZ_CONFIG=/autoware/scenario-sim/rviz/autoware.rviz
     command: >-
       sleep infinity
