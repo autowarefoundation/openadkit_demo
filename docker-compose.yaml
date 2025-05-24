@@ -1,0 +1,28 @@
+services:
+  autoware:
+    image: ghcr.io/oguzkaganozt/autoware-tools:autoware-amd64
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - RUN_MODE=planning-simulator
+      - SCENARIO_SIMULATION=true
+    volumes:
+      - autoware_map:/root/autoware_map
+  
+  scenario_simulator:
+    image: ghcr.io/oguzkaganozt/autoware-tools:scenario-simulator-amd64
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    volumes:
+      - autoware_map:/opt/autoware/share/kashiwanoha_map/map
+      
+  visualizer:
+    image: ghcr.io/oguzkaganozt/autoware-tools:visualizer-amd64
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    ports:
+      - 6080:6080
+
+volumes:
+  autoware_map:
