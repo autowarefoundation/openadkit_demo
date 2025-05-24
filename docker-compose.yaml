@@ -1,6 +1,6 @@
 services:
   autoware:
-    image: ghcr.io/oguzkaganozt/autoware-tools:autoware-amd64
+    image: ghcr.io/autowarefoundation/openadkit-demo:autoware-amd64
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - RUN_MODE=planning-simulator
@@ -9,14 +9,14 @@ services:
       - autoware_map:/root/autoware_map
   
   scenario_simulator:
-    image: ghcr.io/oguzkaganozt/autoware-tools:scenario-simulator-amd64
+    image: ghcr.io/autowarefoundation/openadkit-demo:scenario-simulator-amd64
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     volumes:
       - autoware_map:/opt/autoware/share/kashiwanoha_map/map
       
   visualizer:
-    image: ghcr.io/oguzkaganozt/autoware-tools:visualizer-amd64
+    image: ghcr.io/autowarefoundation/openadkit-demo:visualizer-amd64
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     volumes:
