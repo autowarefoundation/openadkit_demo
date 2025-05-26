@@ -1,26 +1,19 @@
 services:
   autoware:
     image: ghcr.io/autowarefoundation/openadkit-demo:autoware-amd64
-    environment:
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-      - RUN_MODE=planning-simulator
-      - SCENARIO_SIMULATION=true
     volumes:
       - autoware_map:/root/autoware_map
+    environment:
+      - RUN_MODE=planning-simulator
+      - SCENARIO_SIMULATION=true
   
   scenario_simulator:
     image: ghcr.io/autowarefoundation/openadkit-demo:scenario-simulator-amd64
-    environment:
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
     volumes:
       - autoware_map:/opt/autoware/share/kashiwanoha_map/map
       
   visualizer:
     image: ghcr.io/autowarefoundation/openadkit-demo:visualizer-amd64
-    environment:
-      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
     ports:
       - 6080:6080
 
