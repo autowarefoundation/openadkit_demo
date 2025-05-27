@@ -12,18 +12,18 @@ jobs:
   load-env:
     uses: ./.github/workflows/load-env.yaml
 
-  docker-build-and-push-tools:
+  docker-build-and-push:
     needs: [load-env]
     strategy:
       matrix:
         platform: [amd64, arm64]
         include:
           - platform: amd64
-            runner: ubuntu-22.04
+            runner: buildjet-16vcpu-ubuntu-2204
             arch-platform: linux/amd64
             lib-dir: x86_64
           - platform: arm64
-            runner: ubuntu-22.04-arm
+            runner: buildjet-16vcpu-ubuntu-2204-arm
             arch-platform: linux/arm64
             lib-dir: aarch64
     runs-on: ${{ matrix.runner }}
@@ -56,14 +56,14 @@ jobs:
           (github.event_name == 'push' && github.ref_type == 'tag') }}
         uses: ./.github/actions/free-disk-space
 
-      - name: Build 'autoware-tools'
+      - name: Build 'openadkit'
         if: ${{ steps.changed-files.outputs.any_changed == 'true' ||
           github.event_name == 'workflow_dispatch' ||
           (github.event_name == 'push' && github.ref_type == 'tag') }}
-        uses: ./.github/actions/docker-build-and-push-tools
+        uses: ./.github/actions/docker-build-and-push-openadkit
         with:
           platform: ${{ matrix.platform }}
-          target-image: autoware-tools
+          target-image: openadkit
           build-args: |
             *.platform=${{ matrix.arch-platform }}
             *.args.ROS_DISTRO=${{ needs.load-env.outputs.rosdistro }}
@@ -77,14 +77,14 @@ jobs:
         run: |
           df -h
 
-  update-docker-manifest-tools:
-    needs: docker-build-and-push-tools
+  update-docker-manifest-openadkit:
+    needs: docker-build-and-push
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Combine multi arch images for 'autoware-tools'
+      - name: Combine multi arch images for 'openadkit'
         uses: ./.github/actions/combine-multi-arch-images
         with:
-          package-name: autoware-tools
+          package-name: openadkit

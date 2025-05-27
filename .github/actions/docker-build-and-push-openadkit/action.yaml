@@ -1,5 +1,5 @@
-name: docker-build-and-push-tools
-description: Composite action to build and push tools images to registry.
+name: docker-build-and-push-openadkit
+description: Composite action to build and push openadkit images to registry.
 
 inputs:
   platform:
@@ -75,7 +75,7 @@ runs:
       run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
       shell: bash
 
-    - name: Docker meta for autoware-tools:visualizer
+    - name: Docker meta for openadkit:visualizer
       id: meta-visualizer
       uses: docker/metadata-action@v5
       with:
@@ -88,7 +88,7 @@ runs:
         flavor: |
           latest=false
 
-    - name: Docker meta for autoware-tools:scenario-simulator
+    - name: Docker meta for openadkit:scenario-simulator
       id: meta-scenario-simulator
       uses: docker/metadata-action@v5
       with:
@@ -98,6 +98,19 @@ runs:
           type=raw,value=scenario-simulator-${{ steps.date.outputs.date }}-${{ inputs.platform }}
           type=ref,event=tag,prefix=scenario-simulator-,suffix=-${{ inputs.platform }}
         bake-target: docker-metadata-action-scenario-simulator
+        flavor: |
+          latest=false
+
+    - name: Docker meta for openadkit:autoware
+      id: meta-autoware
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/${{ github.repository_owner }}/${{ inputs.target-image }}
+        tags: |
+          type=raw,value=autoware-${{ inputs.platform }}
+          type=raw,value=autoware-${{ steps.date.outputs.date }}-${{ inputs.platform }}
+          type=ref,event=tag,prefix=autoware-,suffix=-${{ inputs.platform }}
+        bake-target: docker-metadata-action-autoware
         flavor: |
           latest=false
 
@@ -113,9 +126,10 @@ runs:
       with:
         push: true
         files: |
-          docker/tools/docker-bake.hcl
+          docker/docker-bake.hcl
           ${{ steps.meta-visualizer.outputs.bake-file }}
           ${{ steps.meta-scenario-simulator.outputs.bake-file }}
+          ${{ steps.meta-autoware.outputs.bake-file }}
         provenance: false
         set: |
           ${{ inputs.build-args }}
