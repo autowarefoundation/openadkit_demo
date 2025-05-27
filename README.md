@@ -6,7 +6,7 @@
 - [scenario-simulator](./docker/scenario-simulator/README.md): Simulation container for Autoware scenario testing.
 - [visualizer](./docker/visualizer/README.md): RViz-based remote operation and visualization container for Autoware.
 
-## Open AD Kit Demo
+## Demo
 
 To run the demo, you need to have Docker installed. Which you can install by using the following command:
 
