@@ -28,6 +28,7 @@ runs:
 
     - name: Run vcs import
       run: |
+        wget -O simulator.repos https://raw.githubusercontent.com/autowarefoundation/autoware/main/simulator.repos
         mkdir src
         vcs import --shallow src < simulator.repos
       shell: bash
