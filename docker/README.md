@@ -1,7 +1,7 @@
-# Open AD Kit Tools
+# Open AD Kit
 
-This directory offers tools for [Open AD Kit](https://autoware.org/open-ad-kit/) containers to make development and deployment easier.
+This directory offers containers for [Open AD Kit](https://autoware.org/open-ad-kit/) to make development and deployment easier.
 
 - [autoware](./autoware/README.md): Autoware container for development and deployment.
-- [scenario-simulator](./scenario-simulator/README.md): Simulation container for Autoware scenario testing.
-- [visualizer](./visualizer/README.md): RViz-based visualization container for Autoware.
+- [scenario-simulator](./scenario-simulator/README.md): Simulation container for Open AD Kit scenario testing.
+- [visualizer](./visualizer/README.md): RViz-based visualization container for Open AD Kit.

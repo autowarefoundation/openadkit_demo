@@ -16,11 +16,11 @@ jobs:
         platform: [amd64, arm64]
         include:
           - platform: amd64
-            runner: buildjet-16vcpu-ubuntu-2204
+            runner: ubuntu-22.04
             arch-platform: linux/amd64
             lib-dir: x86_64
           - platform: arm64
-            runner: buildjet-16vcpu-ubuntu-2204-arm
+            runner: ubuntu-22.04-arm
             arch-platform: linux/arm64
             lib-dir: aarch64
     runs-on: ${{ matrix.runner }}
