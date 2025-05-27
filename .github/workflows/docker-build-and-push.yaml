@@ -46,12 +46,11 @@ jobs:
             ansible-galaxy-requirements.yaml
             ansible/**
             docker/**
-
-      - name: Free disk space
-        if: ${{ steps.changed-files.outputs.any_changed == 'true' ||
-          github.event_name == 'workflow_dispatch' ||
-          (github.event_name == 'push' && github.ref_type == 'tag') }}
-        uses: ./.github/actions/free-disk-space
+      
+      - name: Show disk space
+        if: always()
+        run: |
+          df -h
 
       - name: Build 'openadkit'
         if: ${{ steps.changed-files.outputs.any_changed == 'true' ||
