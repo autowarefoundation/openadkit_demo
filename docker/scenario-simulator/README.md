@@ -1,12 +1,14 @@
-## Open AD Kit Scenario Simulator
+# Open AD Kit - Scenario Simulator
 
-### Run
+Runs Scenario Simulator in a container.
+
+## Standalone Run
 
 ```bash
-docker run --rm --name scenario-simulator ghcr.io/autowarefoundation/autoware-tools:scenario-simulator
+docker run --rm --name scenario-simulator ghcr.io/autowarefoundation/openadkit:scenario-simulator
 ```
 
-### Settings
+## Settings
 
 The following environment variables can be passed to the `scenario-simulator` container:
 

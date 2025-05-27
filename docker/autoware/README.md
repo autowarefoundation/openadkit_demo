@@ -1,12 +1,14 @@
-## Open AD Kit Autoware
+# Open AD Kit - Autoware
 
-### Run
+Runs Autoware in a container.
+
+## Standalone Run
 
 ```bash
-docker run --rm --name autoware ghcr.io/autowarefoundation/autoware-tools:autoware
+docker run --rm --name autoware ghcr.io/autowarefoundation/openadkit:autoware
 ```
 
-### Settings
+## Settings
 
 The following environment variables can be passed to the `autoware` container:
 
